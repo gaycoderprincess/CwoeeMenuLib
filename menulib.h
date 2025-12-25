@@ -516,7 +516,7 @@ void OnD3DReset() {
 
 #include "exports.h"
 
-void InitAndLoadConfig(const char* configName) {
+bool InitAndLoadConfig(const char* configName) {
 	GetCurrentDirectoryW(MAX_PATH, gDLLDir);
 
 	if (std::filesystem::exists(configName)) {
@@ -527,4 +527,10 @@ void InitAndLoadConfig(const char* configName) {
 		gConfig.yPos = config["main"]["y_pos"].value_or(0.18);
 		gConfig.disableKeyboardInput = config["main"]["disable_keyboard"].value_or(true);
 	}
+
+	if (!std::filesystem::exists("MenuStyles")) {
+		MessageBoxA(nullptr, "CwoeeMenuLib: Failed to find any menu styles!", "nya?!~", MB_ICONERROR);
+		return false;
+	}
+	return true;
 }
